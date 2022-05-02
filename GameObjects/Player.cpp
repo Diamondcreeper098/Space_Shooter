@@ -40,6 +40,6 @@ void Player::Destroy() {
 
 }
 
-sf::Sprite Player::GetSprite() {
+sf::Sprite& Player::GetSprite() {
     return m_sprite;
 }

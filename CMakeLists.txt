@@ -10,6 +10,6 @@ endif()
 
 find_package(SFML 2.5.1 COMPONENTS window graphics audio REQUIRED)
 
-add_executable(Space_Shooter main.cpp Application/Application.cpp Application/Application.h TextureManager.h GameObjects/Player.cpp GameObjects/Player.h GameObjects/Baddie.cpp GameObjects/Baddie.h GameObjects/Bullet.cpp GameObjects/Bullet.h GameStates.h)
+add_executable(Space_Shooter main.cpp Application/Application.cpp Application/Application.h TextureManager.h GameObjects/Player.cpp GameObjects/Player.h GameObjects/Baddie.cpp GameObjects/Baddie.h GameObjects/Bullet.cpp GameObjects/Bullet.h GameStates.h GameObjects/BulletHandler.h)
 
 target_link_libraries(Space_Shooter sfml-window sfml-graphics sfml-audio)

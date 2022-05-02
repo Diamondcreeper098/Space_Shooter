@@ -7,7 +7,7 @@ void Bullet::Update() {
     if(isInit)
         m_sprite.move(0, -40);
     if(m_sprite.getPosition().y <= 0)
-        Destroy()
+        Destroy();
 }
 
 void Bullet::Instantiate(sf::Vector2i position) {

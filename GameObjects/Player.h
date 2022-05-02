@@ -7,11 +7,12 @@
 class Player {
 private:
     sf::Sprite m_sprite;
+    int m_accel = 0;
 public:
     Player();
     void Instantiate();
     void Update(sf::Event &evt,sf::Time dt, Bullet &bullet);
-    sf::Sprite GetSprite();
+    sf::Sprite& GetSprite();
     void Destroy();
 };
 

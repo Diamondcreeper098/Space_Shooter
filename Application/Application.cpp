@@ -10,6 +10,15 @@ void Application::Run() {
                     ,"Space invader");
     m_window.setFramerateLimit(60);
 
+    //Loading Textures to the memory
+    TextureManager::register_texture("Ship", "./assets/images/Ship.png"
+            , sf::IntRect(0,0,60,32));
+    TextureManager::register_texture("Invader", "./assets/images/InvaderA1.png"
+            , sf::IntRect(0,0,48,32));
+    TextureManager::register_texture("Bullet", "./assets/images/Bullet.png"
+            , sf::IntRect(0,0,6,17));
+
+
     //Initializing GameObjects
     player.Instantiate();
     int x = 50, y = 10;
