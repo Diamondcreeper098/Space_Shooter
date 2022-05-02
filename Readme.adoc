@@ -1,8 +1,6 @@
 = Space Shooter
 
 == Issues
-Only One bullet per time
-
 No Scoring
 
 No Enemy AI
