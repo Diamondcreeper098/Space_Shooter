@@ -4,8 +4,7 @@
 
 std::vector<Bullet> BulletHandler::Bullets;
 
-float t1;
-float t2;
+int bulletcooldown = 10;
 
 Application::Application() {}
 
@@ -27,8 +26,8 @@ void Application::Run() {
     //Initializing GameObjects
     player.Instantiate();
     int x = 50, y = 10;
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 15; ++j) {
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 18; ++j) {
             baddies.emplace_back();
             baddies.back().Instantiate(sf::Vector2i(x, y));
             x += 68;
@@ -67,7 +66,13 @@ void Application::GameLoop() {
 
                 //Shoot a Bullet
                 else if (event.key.code == sf::Keyboard::Space){
-                    BulletHandler::Shoot(sf::Vector2i (player.GetSprite().getPosition().x + 28, player.GetSprite().getPosition().y));
+                    --bulletcooldown;
+                    if (bulletcooldown <= 0) {
+
+                        BulletHandler::Shoot(sf::Vector2i(player.GetSprite().getPosition().x + 28,
+                                                          player.GetSprite().getPosition().y));
+                        bulletcooldown = 10;
+                    }
                 }
             }
 
@@ -79,6 +84,9 @@ void Application::GameLoop() {
                     player.SetAcceleration(0);
                 } else if (event.key.code == sf::Keyboard::D){
                     player.SetAcceleration(0);
+                }
+                else if (event.key.code == sf::Keyboard::Space){
+                    bulletcooldown = 0;
                 }
             }
         }
