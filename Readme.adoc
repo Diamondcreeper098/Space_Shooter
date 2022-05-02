@@ -1,0 +1,31 @@
+= Space Shooter
+
+== Issues
+Only One bullet per time
+
+No Scoring
+
+No Enemy AI
+
+
+== How to install
+
+First install CMake Version >= 3.22, Then Download SFML >= 2.5 :
+
+(Windows) https://www.sfml-dev.org/download/sfml/2.5.1/
+
+Then Extract SFML to Anywhere on your PC, Then add SFML_ROOT Variable in your User's Environment variables not the system's
+ with the value being the path to libraries root folder, the folder that has libs folder in it, Then build the project with CMake
+, Then Copy All of the SFML dll files from SFML_ROOT\bin folder to where the built exe file is, then copy the assets folder to where the exe file built is.
+
+(MacOS) brew install sfml, Then Build the project with cmake, then copy the assets folder to where the built executable file is.
+
+(Linux) Your system's Package manager, Then Build the project with cmake, then copy the assets folder to where the built executable file is.
+
+== Controls
+A for Steering the ship to left
+D for Steering the ship to Right
+Space for Shooting
+
+== License
+The Unlicense
