@@ -1,6 +1,7 @@
 #include "Baddie.h"
 #include "../TextureManager.h"
 #include "../GameStates.h"
+#include "../GameObjects/BulletHandler.h"
 
 void Baddie::Instantiate(sf::Vector2i position) {
 
@@ -15,13 +16,10 @@ sf::Sprite Baddie::GetSprite() {
     return m_sprite;
 }
 
-void Baddie::Update(Bullet &bullet) {
-    if(!isDestroyed) {
-        //Checking for collision with a bullet
-        if (bullet.GetSprite().getGlobalBounds().intersects(m_sprite.getGlobalBounds())) {
-
-            //Destroying the bullet and the invader
-            bullet.Destroy();
+void Baddie::Update() {
+    for (int i = 0; i < BulletHandler::Bullets.size(); ++i) {
+        if (BulletHandler::Bullets[i].GetSprite().getGlobalBounds().intersects(GetSprite().getGlobalBounds())){
+            BulletHandler::Bullets.erase(BulletHandler::Bullets.begin() + i);
             Destroy();
         }
     }

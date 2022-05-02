@@ -2,6 +2,11 @@
 #include "../GameObjects/BulletHandler.h"
 #include <iostream>
 
+std::vector<Bullet> BulletHandler::Bullets;
+
+float t1;
+float t2;
+
 Application::Application() {}
 
 void Application::Run() {
@@ -59,6 +64,11 @@ void Application::GameLoop() {
                 else if (event.key.code == sf::Keyboard::D){
                     player.SetAcceleration((float)GameStates::Ship_Accel * dt.asSeconds());
                 }
+
+                //Shoot a Bullet
+                else if (event.key.code == sf::Keyboard::Space){
+                    BulletHandler::Shoot(sf::Vector2i (player.GetSprite().getPosition().x + 28, player.GetSprite().getPosition().y));
+                }
             }
 
             //Key Released
@@ -75,9 +85,12 @@ void Application::GameLoop() {
 
         //Updating
         player.Update();
-        bullet.Update();
+        BulletHandler::UpdateAll();
         for (int i = 0; i < baddies.size(); ++i) {
-            baddies[i].Update(bullet);
+            baddies[i].Update();
+            if (baddies[i].isDestroyed){
+                baddies.erase(baddies.begin() + i);
+            }
         }
         //Drawing
         m_window.clear();
@@ -85,7 +98,7 @@ void Application::GameLoop() {
         for (int i = 0; i < baddies.size(); ++i) {
             m_window.draw(baddies[i].GetSprite());
         }
-        m_window.draw(bullet.GetSprite());
+        BulletHandler::DrawAll(m_window);
         m_window.display();
 
     }
