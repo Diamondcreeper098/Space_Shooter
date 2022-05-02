@@ -8,8 +8,7 @@ int main() {
 
 
     //Running the App
-    Application* x = new Application();
-    x->Run();
-    delete x;
+    Application app;
+    app.Run();
     return 0;
 }

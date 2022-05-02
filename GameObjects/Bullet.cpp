@@ -15,13 +15,9 @@ void Bullet::Instantiate(sf::Vector2i position) {
     //Loading the Bullet's texture from memory to the sprite
     m_sprite.setTexture(TextureManager::Textures["Bullet"]);
     m_sprite.setPosition(position.x, position.y);
-    m_sprite.setScale(1,1);
-
-    //Enabling the Bullet
-    isInit = true;
 }
 
-sf::Sprite Bullet::GetSprite() {
+sf::Sprite& Bullet::GetSprite() {
     return m_sprite;
 }
 

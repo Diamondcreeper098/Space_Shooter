@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "../GameObjects/BulletHandler.h"
 #include <iostream>
 
 Application::Application() {}
@@ -18,7 +19,6 @@ void Application::Run() {
     TextureManager::register_texture("Bullet", "./assets/images/Bullet.png"
             , sf::IntRect(0,0,6,17));
 
-
     //Initializing GameObjects
     player.Instantiate();
     int x = 50, y = 10;
@@ -31,6 +31,7 @@ void Application::Run() {
         x = 50;
         y +=52;
     }
+    sf::Time dt = clock.restart();
     GameLoop();
 }
 
@@ -41,12 +42,39 @@ void Application::GameLoop() {
         //Events
         sf::Event event;
         while (m_window.pollEvent(event)){
+
+            //Window Close
             if(event.type == sf::Event::Closed)
                 m_window.close();
-            player.Update(event, dt, bullet);
+
+            //Key Pressed
+            else if(event.type == sf::Event::KeyPressed){
+
+                //Steering ship to left
+                if (event.key.code == sf::Keyboard::A){
+                    player.SetAcceleration(-(float)GameStates::Ship_Accel * dt.asSeconds());
+                }
+
+                //Steering ship to right
+                else if (event.key.code == sf::Keyboard::D){
+                    player.SetAcceleration((float)GameStates::Ship_Accel * dt.asSeconds());
+                }
+            }
+
+            //Key Released
+            else if(event.type == sf::Event::KeyReleased){
+
+                //Stopping the ship's movement
+                if (event.key.code == sf::Keyboard::A) {
+                    player.SetAcceleration(0);
+                } else if (event.key.code == sf::Keyboard::D){
+                    player.SetAcceleration(0);
+                }
+            }
         }
 
         //Updating
+        player.Update();
         bullet.Update();
         for (int i = 0; i < baddies.size(); ++i) {
             baddies[i].Update(bullet);

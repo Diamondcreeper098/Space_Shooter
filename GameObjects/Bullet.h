@@ -10,6 +10,6 @@ public:
     Bullet() = default;
     void Instantiate(sf::Vector2i position);
     void Update();
-    sf::Sprite GetSprite();
+    sf::Sprite& GetSprite();
     void Destroy();
 };
