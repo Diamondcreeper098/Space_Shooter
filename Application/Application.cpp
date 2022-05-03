@@ -2,7 +2,15 @@
 #include "../GameObjects/BulletHandler.h"
 #include <iostream>
 
+std::map<std::string, sf::Texture> TextureManager::Textures;
+
 std::vector<Bullet> BulletHandler::Bullets;
+
+int MainMenu::SelectionIndex;
+std::string MainMenu::Title;
+std::string MainMenu::Message;
+std::vector<std::string> MainMenu::Items;
+bool MainMenu::isOpen;
 
 int bulletcooldown = 10;
 
@@ -23,25 +31,52 @@ void Application::Run() {
     TextureManager::register_texture("Bullet", "./assets/images/Bullet.png"
             , sf::IntRect(0,0,6,17));
 
-    //Initializing GameObjects
-    player.Instantiate();
-    int x = 50, y = 10;
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 18; ++j) {
-            baddies.emplace_back();
-            baddies.back().Instantiate(sf::Vector2i(x, y));
-            x += 68;
-        }
-        x = 50;
-        y +=52;
+    if (!font.loadFromFile("./assets/unifont.ttf")) {
+        std::cerr << "Font failed";
+        return;
     }
+    MainMenu::OpenMenu("");
+    //InitGameObjects();
     sf::Time dt = clock.restart();
     GameLoop();
 }
 
 void Application::GameLoop() {
+
     while(m_window.isOpen()){
         sf::Time dt = clock.restart();
+
+        while(MainMenu::isOpen){
+            sf::Event event;
+            while (m_window.pollEvent(event)) {
+                if(event.type == sf::Event::Closed)
+                    m_window.close();
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    ++MainMenu::SelectionIndex;
+                    if (MainMenu::SelectionIndex > 1)
+                        MainMenu::SelectionIndex = 0;
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    --MainMenu::SelectionIndex;
+                    if (MainMenu::SelectionIndex > 1)
+                        MainMenu::SelectionIndex = 0;
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                    InitGameObjects();
+                    MainMenu::CloseMenu();
+                }
+            }
+            m_window.clear();
+            int MenuX = 10;
+            int MenuY = 10;
+            for (int i = 0; i < MainMenu::Items.size(); ++i) {
+                sf::Text text(MainMenu::Items[i], font);
+                text.setPosition(MenuX, MenuY);
+                if( i == MainMenu::SelectionIndex)
+                    text.setFillColor(sf::Color::Green);
+                m_window.draw(text);
+                MenuY+=40;
+            }
+            m_window.display();
+        }
 
         //Events
         sf::Event event;
@@ -109,5 +144,21 @@ void Application::GameLoop() {
         BulletHandler::DrawAll(m_window);
         m_window.display();
 
+    }
+}
+
+void Application::InitGameObjects() {
+
+    //Initializing GameObjects
+    player.Instantiate();
+    int x = 50, y = 60;
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 18; ++j) {
+            baddies.emplace_back();
+            baddies.back().Instantiate(sf::Vector2i(x, y));
+            x += 68;
+        }
+        x = 50;
+        y +=52;
     }
 }
