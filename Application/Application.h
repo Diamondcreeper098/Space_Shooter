@@ -15,7 +15,7 @@ struct MainMenu{
     static void OpenMenu(const std::string& message){
         Items.clear();
         SelectionIndex = 0;
-        Title = "Space Shooter";
+        Title = "Crappy Space Shooter";
         Message = message;
         Items.emplace_back("Start");
         Items.emplace_back("End");
@@ -33,6 +33,7 @@ private:
     std::vector<Baddie> baddies;
     sf::Clock clock;
     sf::Font font;
+    bool hadBegun = false;
 public:
     Application();
     void Run();

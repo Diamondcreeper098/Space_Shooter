@@ -20,7 +20,7 @@ void Application::Run() {
 
     //Creating the window
     m_window.create(sf::VideoMode(GameStates::windowWidth,GameStates::windowHeight)
-                    ,"Space invader");
+                    ,"Space Shooter");
     m_window.setFramerateLimit(60);
 
     //Loading Textures to the memory
@@ -35,7 +35,6 @@ void Application::Run() {
         std::cerr << "Font failed";
         return;
     }
-    MainMenu::OpenMenu("");
     //InitGameObjects();
     sf::Time dt = clock.restart();
     GameLoop();
@@ -46,27 +45,45 @@ void Application::GameLoop() {
     while(m_window.isOpen()){
         sf::Time dt = clock.restart();
 
+        if(baddies.empty()) {
+            if (hadBegun)
+                MainMenu::OpenMenu("You won!");
+            else
+                MainMenu::OpenMenu("");
+        }
+        hadBegun = true;
         while(MainMenu::isOpen){
             sf::Event event;
             while (m_window.pollEvent(event)) {
-                if(event.type == sf::Event::Closed)
+                if(event.type == sf::Event::Closed) {
                     m_window.close();
+                    MainMenu::CloseMenu();
+                }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     ++MainMenu::SelectionIndex;
                     if (MainMenu::SelectionIndex > 1)
                         MainMenu::SelectionIndex = 0;
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     --MainMenu::SelectionIndex;
-                    if (MainMenu::SelectionIndex > 1)
-                        MainMenu::SelectionIndex = 0;
+                    if (MainMenu::SelectionIndex < 0)
+                        MainMenu::SelectionIndex = 1;
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-                    InitGameObjects();
+                    if (MainMenu::SelectionIndex == 0)
+                        InitGameObjects();
+                    else
+                        m_window.close();
                     MainMenu::CloseMenu();
                 }
             }
             m_window.clear();
-            int MenuX = 10;
-            int MenuY = 10;
+            sf::Text msg(MainMenu::Message, font, 10);
+            msg.setPosition(20, 20);
+            sf::Text title(MainMenu::Title, font, 50);
+            title.setPosition(20, 50);
+            m_window.draw(title);
+            m_window.draw(msg);
+            int MenuX = 30;
+            int MenuY = 110;
             for (int i = 0; i < MainMenu::Items.size(); ++i) {
                 sf::Text text(MainMenu::Items[i], font);
                 text.setPosition(MenuX, MenuY);

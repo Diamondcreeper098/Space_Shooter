@@ -1,9 +1,9 @@
 = Space Shooter
 
 == Issues
-No Scoring
+Boring
 
-No Enemy AI
+But served its purpose
 
 
 == How to install
@@ -21,9 +21,25 @@ Then Extract SFML to Anywhere on your PC, Then add SFML_ROOT Variable in your Us
 (Linux) Your system's Package manager, Then Build the project with cmake, then copy the assets folder to where the built executable file is.
 
 == Controls
+
+Up Arrow Go up in the menu
+
+Down Arrow Go down in the menu
+
 A for Steering the ship to left
+
 D for Steering the ship to Right
+
 Space for Shooting
+
+== Credits
+Uses Unifont
+
+Textures:
+
+(Partially): https://www.raywenderlich.com/2642-how-to-make-a-game-like-space-invaders-with-sprite-kit-tutorial-part-1#toc-anchor-001
+
+and: https://github.com/DamirSvrtan/space-invaders.rb
 
 == License
 The Unlicense
