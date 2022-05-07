@@ -1,24 +1,29 @@
+//The class responsible for Handling Bullets
+
 #include "Bullet.h"
 #include <vector>
 
 class BulletHandler {
 public:
-    static std::vector<Bullet> Bullets;
+    static std::vector<Bullet> Bullets; //The array that holds the bullets
 
+    //Instantiates the Bullet GameObjects and then Shoots them.
     static void Shoot(sf::Vector2i position){
         Bullets.emplace_back();
         Bullets.back().Instantiate(position);
     }
 
+    //Renders the Bullets
     static void DrawAll(sf::RenderWindow& renderer){
-        for (int i = 0; i < Bullets.size(); ++i) {
-            renderer.draw(Bullets[i].GetSprite());
+        for (auto & Bullet : Bullets) {
+            renderer.draw(Bullet.GetSprite());
         }
     }
 
+    //Tells the bullets to move (Updates them).
     static void UpdateAll(){
-        for (int i = 0; i < Bullets.size(); ++i) {
-            Bullets[i].Update();
+        for (auto & Bullet : Bullets) {
+            Bullet.Update();
         }
     }
 };

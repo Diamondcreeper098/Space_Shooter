@@ -1,3 +1,5 @@
+//The Main Application
+
 #pragma once
 #include "../TextureManager.h"
 #include "../GameStates.h"
@@ -6,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+// Main menu
 struct MainMenu{
     static int SelectionIndex;
     static std::string Title;
@@ -15,7 +18,7 @@ struct MainMenu{
     static void OpenMenu(const std::string& message){
         Items.clear();
         SelectionIndex = 0;
-        Title = "Crappy Space Shooter";
+        Title = "Space Shooter";
         Message = message;
         Items.emplace_back("Start");
         Items.emplace_back("End");
@@ -35,7 +38,7 @@ private:
     sf::Font font;
     bool hadBegun = false;
 public:
-    Application();
+    Application() = default;
     void Run();
     void GameLoop();
     void InitGameObjects();

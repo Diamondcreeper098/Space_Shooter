@@ -1,3 +1,5 @@
+//The class responsible for bullets
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../TextureManager.h"

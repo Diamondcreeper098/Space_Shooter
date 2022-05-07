@@ -2,10 +2,9 @@
 #include "../GameObjects/BulletHandler.h"
 #include <iostream>
 
+//Defining Static Variables
 std::map<std::string, sf::Texture> TextureManager::Textures;
-
 std::vector<Bullet> BulletHandler::Bullets;
-
 int MainMenu::SelectionIndex;
 std::string MainMenu::Title;
 std::string MainMenu::Message;
@@ -13,8 +12,6 @@ std::vector<std::string> MainMenu::Items;
 bool MainMenu::isOpen;
 
 int bulletcooldown = 10;
-
-Application::Application() {}
 
 void Application::Run() {
 
@@ -35,7 +32,7 @@ void Application::Run() {
         std::cerr << "Font failed";
         return;
     }
-    //InitGameObjects();
+
     sf::Time dt = clock.restart();
     GameLoop();
 }
@@ -43,8 +40,10 @@ void Application::Run() {
 void Application::GameLoop() {
 
     while(m_window.isOpen()){
+        //Getting the time that every frame takes
         sf::Time dt = clock.restart();
 
+        //If All the Opponents are dead/not spawned yet, Open the Menu
         if(baddies.empty()) {
             if (hadBegun)
                 MainMenu::OpenMenu("You won!");
@@ -52,21 +51,30 @@ void Application::GameLoop() {
                 MainMenu::OpenMenu("");
         }
         hadBegun = true;
+
+        //The Menu loop
         while(MainMenu::isOpen){
             sf::Event event;
+
+            //Menu's Event loop
             while (m_window.pollEvent(event)) {
+                //If we are closing the Program
                 if(event.type == sf::Event::Closed) {
                     m_window.close();
                     MainMenu::CloseMenu();
                 }
+
+                //When Down Arrow key is pressed, Advance to the next item in the menu
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     ++MainMenu::SelectionIndex;
                     if (MainMenu::SelectionIndex > 1)
                         MainMenu::SelectionIndex = 0;
+                //When Up Arrow key is pressed, Come back to the Previous item in the menu
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     --MainMenu::SelectionIndex;
                     if (MainMenu::SelectionIndex < 0)
                         MainMenu::SelectionIndex = 1;
+                //When Enter Key is pressed, Do the related action
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                     if (MainMenu::SelectionIndex == 0)
                         InitGameObjects();
@@ -75,15 +83,19 @@ void Application::GameLoop() {
                     MainMenu::CloseMenu();
                 }
             }
+
+            //Drawing the menu
             m_window.clear();
-            sf::Text msg(MainMenu::Message, font, 10);
-            msg.setPosition(20, 20);
+            sf::Text msg(MainMenu::Message, font, 30);
+            msg.setPosition(20, 10);
             sf::Text title(MainMenu::Title, font, 50);
             title.setPosition(20, 50);
             m_window.draw(title);
             m_window.draw(msg);
+            //The Origin Position for Menu Items
             int MenuX = 30;
             int MenuY = 110;
+            //Drawing menu items
             for (int i = 0; i < MainMenu::Items.size(); ++i) {
                 sf::Text text(MainMenu::Items[i], font);
                 text.setPosition(MenuX, MenuY);
@@ -137,6 +149,7 @@ void Application::GameLoop() {
                 } else if (event.key.code == sf::Keyboard::D){
                     player.SetAcceleration(0);
                 }
+                //Resetting the Bullet Cooldown
                 else if (event.key.code == sf::Keyboard::Space){
                     bulletcooldown = 0;
                 }
@@ -148,6 +161,7 @@ void Application::GameLoop() {
         BulletHandler::UpdateAll();
         for (int i = 0; i < baddies.size(); ++i) {
             baddies[i].Update();
+            //If An Opponent is Destroyed, Remove the related item from the Opponent's Array
             if (baddies[i].isDestroyed){
                 baddies.erase(baddies.begin() + i);
             }
@@ -164,9 +178,9 @@ void Application::GameLoop() {
     }
 }
 
+//Initializing GameObjects
 void Application::InitGameObjects() {
 
-    //Initializing GameObjects
     player.Instantiate();
     int x = 50, y = 60;
     for (int i = 0; i < 5; ++i) {

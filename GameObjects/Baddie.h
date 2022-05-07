@@ -1,3 +1,5 @@
+//The class responsible for Opponents
+
 #pragma once
 #include <SFML/Graphics.hpp>
 
