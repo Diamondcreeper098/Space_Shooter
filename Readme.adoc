@@ -33,6 +33,8 @@ D for Steering the ship to Right
 Space for Shooting
 
 == Credits
+SFML: https://www.sfml-dev.org
+
 Uses Unifont
 
 Textures:
